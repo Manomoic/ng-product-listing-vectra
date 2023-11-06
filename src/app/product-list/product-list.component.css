@@ -1,0 +1,12 @@
+.container {
+    position: relative;
+    display: inline-block;
+  }
+
+.hover-button {
+    display: none;
+  }
+  
+  .container:hover .hover-button {
+    display: block;
+  }

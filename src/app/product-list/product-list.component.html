@@ -1,0 +1,63 @@
+<div class="row g-2 mb-3 mt-3">
+    <div>
+        <!-- Display the count of displayed products -->
+        <p class="col-md-6 col-sm-12">Products found: <span class="badge text-bg-light rounded-pill">{{
+                products.length }}</span>, against
+            products searched: <span class="badge text-bg-light rounded-pill">{{ displayCount.length }}</span></p>
+    </div>
+
+    <div class="col-md">
+        <div class="form-floating">
+            <!-- Searching -->
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" [(ngModel)]="searchText"
+                    placeholder="Searching" (ngModelChange)="onDisplayTotalProductCount()">
+                <label for="floatingInput">Search for item in the list</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="form-floating">
+            <select [(ngModel)]="sortOrder" name="sortOrder" aria-label="sortOrder" class="form-select"
+                (ngModelChange)="onUserInputChanged()">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md">
+        <div class="form-floating">
+            <!-- Sorting -->
+            <select [(ngModel)]="sortField" name="sortField" aria-label="sortField" class="form-select"
+                (ngModelChange)="onUserInputChanged()">
+                <option value="name">Category A-Z</option>
+                <option value="price">By price</option>
+                <option value="category">Alphabetically by category</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="col"
+        *ngFor="let product of products | filter:searchText:['name', 'category', 'price'] | sort:sortField:sortOrder; index as i">
+        <div *ngIf="i < displayLimit">
+            <div class="card shadow-sm">
+                <img [src]="product.image" alt="{{ product.name }}" />
+                <div class="card-body">
+                    <h4 class="card-text">{{ product.name }}</h4>
+                    <p class="card-text">{{ product.category }}</p>
+                    <p class="card-text">{{ product.price | currency }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<a class="btn btn-outline-secondary mb-3 mt-3" (click)="loadMore()" *ngIf="hasMoreProducts()">Load more</a>
